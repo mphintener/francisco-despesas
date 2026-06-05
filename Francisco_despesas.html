@@ -255,7 +255,6 @@ async function carregarVariaveis() {
   try {
     const res = await fetch(API + '?action=getVariavel');
     const json = await res.json();
-    if(json.status !== 'ok') throw new Error(json.msg);
     parseVariaveis(json.data);
     buildTable(varLuana, 'var-luana-body', false);
     buildTable(varMarcelo, 'var-marcelo-body', false);
@@ -352,8 +351,7 @@ async function lancarDespesa() {
   try {
     const url=`${API}?action=addDespesa&quem=${perfil}&desc=${encodeURIComponent(desc)}&mes=${mes}&valor=${valor}`;
     const res = await fetch(url, {mode: 'no-cors'});
-    const json=await res.json();
-    if(json.status!=='ok') throw new Error(json.msg);
+    // no-cors não retorna body, assumimos sucesso
     document.getElementById('new-desc').value='';
     document.getElementById('new-val').value='';
     showToast('✓ Despesa salva na planilha!');
