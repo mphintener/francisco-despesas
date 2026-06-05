@@ -351,7 +351,7 @@ async function lancarDespesa() {
   btn.disabled=true; btn.textContent='Salvando...';
   try {
     const url=`${API}?action=addDespesa&quem=${perfil}&desc=${encodeURIComponent(desc)}&mes=${mes}&valor=${valor}`;
-    const res=await fetch(url);
+    const res = await fetch(url, {mode: 'no-cors'});
     const json=await res.json();
     if(json.status!=='ok') throw new Error(json.msg);
     document.getElementById('new-desc').value='';
