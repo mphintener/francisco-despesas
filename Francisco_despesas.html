@@ -222,7 +222,7 @@ function parseVariaveis(rows) {
     if(c0.indexOf('PAGAS POR LUANA') >= 0) { section='luana'; headerFound=false; continue; }
     if(c0.indexOf('PAGAS POR MARCELO') >= 0 || c0.indexOf('PAGAS POR M') >= 0) { section='marcelo'; headerFound=false; continue; }
     if(c0 === 'FAVORECIDO') { headerFound=true; continue; }
-    if(c0 === 'TOTAL' || c0 === '') continue;
+    if(c0.startsWith('TOTAL') || c0 === '') continue;
     if(!section || !headerFound) continue;
     const nome = String(getCellValue(cells[0])||'').trim();
     if(!nome) continue;
@@ -299,5 +299,6 @@ carregarVariaveis();
 </script>
 </body>
 </html>
+
 
 
