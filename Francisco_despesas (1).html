@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Despesas do Francisco</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f4f0; --surface: #ffffff; --surface2: #eeecea; --border: #e0ddd8;
+  --text: #1a1917; --text2: #6b6760; --text3: #9c9890;
+  --teal: #0d7a5f; --teal-bg: #e6f4f0; --blue: #1a5fa8; --blue-bg: #e8f0fb;
+  --red: #c0392b; --red-bg: #fdecea; --radius: 10px; --radius-lg: 14px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 15px; }
+header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 20px; position: sticky; top: 0; z-index: 10; }
+.header-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+.header-title { font-size: 16px; font-weight: 600; }
+.header-sub { font-size: 13px; color: var(--text2); }
+.avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--teal-bg); color: var(--teal); font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; }
+main { max-width: 900px; margin: 0 auto; padding: 20px 16px 40px; }
+
+/* PERFIL */
+.perfil-bar { display: flex; gap: 10px; margin-bottom: 20px; }
+.perfil-btn { flex: 1; padding: 10px; border: 2px solid var(--border); border-radius: var(--radius); background: var(--surface); cursor: pointer; font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif; color: var(--text2); transition: all 0.15s; text-align: center; }
+.perfil-btn.active-luana { border-color: var(--teal); background: var(--teal-bg); color: var(--teal); }
+.perfil-btn.active-marcelo { border-color: var(--blue); background: var(--blue-bg); color: var(--blue); }
+
+.tabs { display: flex; gap: 6px; margin-bottom: 20px; overflow-x: auto; }
+.tab { padding: 8px 16px; border: 1px solid var(--border); border-radius: 99px; background: var(--surface); cursor: pointer; font-size: 13px; font-weight: 500; color: var(--text2); white-space: nowrap; font-family: 'DM Sans', sans-serif; transition: all 0.15s; }
+.tab.active { background: var(--text); color: #fff; border-color: var(--text); }
+
+.section { display: none; }
+.section.active { display: block; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 20px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
+.card-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 6px; }
+.card-value { font-size: 20px; font-weight: 600; font-family: 'DM Mono', monospace; }
+.card-value.blue { color: var(--blue); }
+.card-value.teal { color: var(--teal); }
+
+.box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px 20px; margin-bottom: 16px; }
+.box-title { font-size: 14px; font-weight: 600; margin-bottom: 14px; color: var(--text2); text-transform: uppercase; letter-spacing: .04em; }
+.repasse-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+.repasse-row:last-child { border-bottom: none; }
+.repasse-label { color: var(--text2); }
+.repasse-value { font-weight: 600; font-family: 'DM Mono', monospace; }
+.repasse-value.big { font-size: 20px; color: var(--blue); }
+
+select.month-sel { appearance: none; padding: 9px 36px 9px 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b6760' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center; font-size: 14px; font-family: 'DM Sans', sans-serif; font-weight: 500; color: var(--text); cursor: pointer; margin-bottom: 16px; width: 100%; max-width: 240px; }
+
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 600px; }
+th { padding: 8px 10px; background: var(--surface2); font-weight: 500; font-size: 11px; color: var(--text2); text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; text-transform: uppercase; letter-spacing: .04em; }
+td { padding: 9px 10px; border-bottom: 1px solid var(--border); font-size: 13px; white-space: nowrap; }
+tr:last-child td { border-bottom: none; }
+.total-row td { font-weight: 600; background: var(--surface2); font-family: 'DM Mono', monospace; }
+.zero { color: var(--text3); }
+.mono { font-family: 'DM Mono', monospace; }
+
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 600; }
+.badge-l { background: var(--teal-bg); color: var(--teal); }
+.badge-m { background: var(--blue-bg); color: var(--blue); }
+.sec-label { font-size: 13px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: .04em; margin: 20px 0 10px; display: flex; align-items: center; gap: 8px; }
+
+.form-section { background: var(--surface2); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 16px; }
+.form-grid { display: grid; grid-template-columns: 1fr 160px 120px auto; gap: 8px; align-items: end; }
+@media(max-width:600px) { .form-grid { grid-template-columns: 1fr 1fr; } .form-grid .btn-add { grid-column: 1/-1; } }
+.form-label { font-size: 11px; color: var(--text2); margin-bottom: 4px; display: block; text-transform: uppercase; letter-spacing: .04em; }
+input[type=text], input[type=number], select.form-sel { width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 13px; font-family: 'DM Sans', sans-serif; background: var(--surface); color: var(--text); }
+.btn-add { padding: 8px 16px; border: none; border-radius: var(--radius); cursor: pointer; font-size: 13px; font-weight: 500; background: var(--text); color: #fff; white-space: nowrap; font-family: 'DM Sans', sans-serif; }
+.btn-add:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-del { padding: 3px 8px; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 12px; background: var(--red-bg); color: var(--red); font-family: 'DM Sans', sans-serif; }
+.info-note { font-size: 12px; color: var(--text2); padding: 10px 14px; border-left: 3px solid var(--border); background: var(--surface2); margin-top: 12px; }
+
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--text); color: #fff; padding: 10px 20px; border-radius: 99px; font-size: 13px; font-weight: 500; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 999; }
+.toast.show { opacity: 1; }
+
+.loading { text-align: center; padding: 30px; color: var(--text2); font-size: 14px; }
+.acum-pos { color: var(--red); font-weight: 600; }
+.acum-neg { color: var(--teal); font-weight: 600; }
+.saldo-pos { color: var(--blue); }
+.saldo-neg { color: var(--red); }
+
+.perfil-aviso { background: var(--teal-bg); border: 1px solid var(--teal); border-radius: var(--radius); padding: 12px 16px; font-size: 13px; color: var(--teal); margin-bottom: 16px; display: none; }
+.perfil-aviso.show { display: block; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div>
+      <div class="header-title">Despesas do Francisco</div>
+      <div class="header-sub">Controle compartilhado · 2025</div>
+    </div>
+    <div class="avatar">F</div>
+  </div>
+</header>
+
+<main>
+
+  <!-- SELEÇÃO DE PERFIL -->
+  <div class="perfil-bar">
+    <button class="perfil-btn" id="btn-luana" onclick="setPerfil('luana')">👩 Luana</button>
+    <button class="perfil-btn" id="btn-marcelo" onclick="setPerfil('marcelo')">👨 Marcelo</button>
+  </div>
+  <div class="perfil-aviso" id="perfil-aviso"></div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('resumo',this)">Resumo</button>
+    <button class="tab" onclick="showTab('fixas',this)">Despesas fixas</button>
+    <button class="tab" onclick="showTab('variaveis',this)">Despesas variáveis</button>
+    <button class="tab" onclick="showTab('repasse',this)">Repasse anual</button>
+  </div>
+
+  <!-- RESUMO -->
+  <div id="sec-resumo" class="section active">
+    <select class="month-sel" id="month-sel" onchange="updateResumo()">
+      <option value="0">Janeiro</option><option value="1">Fevereiro</option>
+      <option value="2">Março</option><option value="3">Abril</option>
+      <option value="4">Maio</option><option value="5">Junho</option>
+      <option value="6">Julho</option><option value="7">Agosto</option>
+      <option value="8">Setembro</option><option value="9">Outubro</option>
+      <option value="10">Novembro</option><option value="11">Dezembro</option>
+    </select>
+    <div class="cards">
+      <div class="card"><div class="card-label">Total do mês</div><div class="card-value blue" id="r-total">—</div></div>
+      <div class="card"><div class="card-label">Despesas fixas</div><div class="card-value" id="r-fixas">—</div></div>
+      <div class="card"><div class="card-label">Despesas variáveis</div><div class="card-value" id="r-var">—</div></div>
+      <div class="card"><div class="card-label">Repasse p/ Luana</div><div class="card-value teal" id="r-repasse">—</div></div>
+    </div>
+    <div class="box">
+      <div class="box-title">Cálculo do repasse — <span id="r-mes-nome"></span></div>
+      <div class="repasse-row"><span class="repasse-label">Total de despesas do mês</span><span class="repasse-value" id="rd-total">—</span></div>
+      <div class="repasse-row"><span class="repasse-label">Valor de cada um (50%)</span><span class="repasse-value" id="rd-cada">—</span></div>
+      <div class="repasse-row"><span class="repasse-label">Pago diretamente por Marcelo</span><span class="repasse-value" id="rd-marc">—</span></div>
+      <div class="repasse-row"><span class="repasse-label">Repasse de Marcelo → Luana</span><span class="repasse-value big" id="rd-repasse">—</span></div>
+    </div>
+  </div>
+
+  <!-- FIXAS -->
+  <div id="sec-fixas" class="section">
+    <div class="box" style="padding:0;overflow:hidden">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Item</th><th>Jan</th><th>Fev</th><th>Mar</th><th>Abr</th><th>Mai</th><th>Jun</th><th>Jul</th><th>Ago</th><th>Set</th><th>Out</th><th>Nov</th><th>Dez</th><th>Total</th></tr></thead>
+          <tbody id="fixas-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- VARIÁVEIS -->
+  <div id="sec-variaveis" class="section">
+    <div class="sec-label">Pagas por Luana <span class="badge badge-l">Luana</span></div>
+    <div class="box" style="padding:0;overflow:hidden;margin-bottom:20px">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Item</th><th>Jan</th><th>Fev</th><th>Mar</th><th>Abr</th><th>Mai</th><th>Jun</th><th>Jul</th><th>Ago</th><th>Set</th><th>Out</th><th>Nov</th><th>Dez</th><th>Total</th></tr></thead>
+          <tbody id="var-luana-body"><tr><td colspan="14" class="loading">Carregando...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="form-lancamento" style="display:none">
+      <div class="sec-label" id="form-label">Adicionar despesa <span class="badge" id="form-badge"></span></div>
+      <div class="form-section">
+        <div class="form-grid">
+          <div><label class="form-label">Descrição</label><input type="text" id="new-desc" placeholder="ex: consulta médica"></div>
+          <div><label class="form-label">Mês</label>
+            <select class="form-sel" id="new-mes">
+              <option value="0">Janeiro</option><option value="1">Fevereiro</option><option value="2">Março</option><option value="3">Abril</option><option value="4">Maio</option><option value="5">Junho</option><option value="6">Julho</option><option value="7">Agosto</option><option value="8">Setembro</option><option value="9">Outubro</option><option value="10">Novembro</option><option value="11">Dezembro</option>
+            </select>
+          </div>
+          <div><label class="form-label">Valor (R$)</label><input type="number" id="new-val" placeholder="0,00" min="0" step="0.01"></div>
+          <div><label class="form-label">&nbsp;</label><button class="btn-add" id="btn-lancar" onclick="lancarDespesa()">+ Adicionar</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-label">Pagas por Marcelo <span class="badge badge-m">Marcelo</span></div>
+    <div class="box" style="padding:0;overflow:hidden">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Item</th><th>Jan</th><th>Fev</th><th>Mar</th><th>Abr</th><th>Mai</th><th>Jun</th><th>Jul</th><th>Ago</th><th>Set</th><th>Out</th><th>Nov</th><th>Dez</th><th>Total</th></tr></thead>
+          <tbody id="var-marcelo-body"><tr><td colspan="14" class="loading">Carregando...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="info-note">Despesas pagas por Marcelo são descontadas automaticamente do repasse mensal.</div>
+  </div>
+
+  <!-- REPASSE ANUAL -->
+  <div id="sec-repasse" class="section">
+    <div class="box" style="padding:0;overflow:hidden">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Mês</th><th>Total despesas</th><th>Repasse previsto</th><th>Pago p/ Marcelo</th><th>Saldo mensal</th><th>Saldo acumulado</th></tr></thead>
+          <tbody id="repasse-body"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="info-note">Saldo acumulado = total que Marcelo deve repassar para Luana até aquele mês, já descontando o que pagou diretamente.</div>
+  </div>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API = 'https://script.google.com/macros/s/AKfycby86l2F-JBt0SZCtXEgxO2ipHmu3ELHvjQPLH62orCmPWRWQVWA-PC7wR6fAH0De_KH/exec';
+const MESES = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+const MESES_FULL = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
+let perfil = null;
+let varLuana = [], varMarcelo = [];
+
+const fixas = [
+  {nome:'Escola Mais', vals:[1634,1634,1634,1634,1634,1634,1634,1634,1634,1634,1634,1634]},
+  {nome:'Material didático', vals:[320,320,320,320,320,320,320,320,320,320,320,0]},
+  {nome:'Plano de saúde', vals:[328.66,328.66,285.95,285.95,729.57,443.62,443.62,443.62,443.62,443.62,443.62,443.62]},
+  {nome:'Almoço escola', vals:[0,450,550,475,500,500,0,500,500,500,500,350]},
+  {nome:'Clube', vals:[138.80,138.80,138.80,138.80,200.47,138.80,138.80,138.80,138.80,138.80,138.80,138.80]},
+  {nome:'Celular', vals:[50,50,50,50,50,50,50,50,50,50,50,50]},
+];
+
+function brl(v) { return 'R$ ' + Number(v).toFixed(2).replace('.',','); }
+function colSums(arr) { return Array.from({length:12},(_,i)=>arr.reduce((s,r)=>s+(parseFloat(r.vals[i])||0),0)); }
+
+function setPerfil(p) {
+  perfil = p;
+  document.getElementById('btn-luana').className = 'perfil-btn' + (p==='luana'?' active-luana':'');
+  document.getElementById('btn-marcelo').className = 'perfil-btn' + (p==='marcelo'?' active-marcelo':'');
+  const aviso = document.getElementById('perfil-aviso');
+  aviso.className = 'perfil-aviso show';
+  aviso.textContent = p === 'luana' ? '👩 Você está como Luana — pode lançar despesas pagas por você.' : '👨 Você está como Marcelo — pode lançar despesas pagas por você.';
+  const form = document.getElementById('form-lancamento');
+  form.style.display = 'block';
+  const badge = document.getElementById('form-badge');
+  if(p==='luana') { badge.className='badge badge-l'; badge.textContent='Luana'; }
+  else { badge.className='badge badge-m'; badge.textContent='Marcelo'; }
+  document.getElementById('new-mes').value = new Date().getMonth();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3000);
+}
+
+async function carregarVariaveis() {
+  try {
+    const res = await fetch(API + '?action=getVariavel');
+    const json = await res.json();
+    if(json.status !== 'ok') throw new Error(json.msg);
+    parseVariaveis(json.data);
+    buildTable(varLuana, 'var-luana-body', false);
+    buildTable(varMarcelo, 'var-marcelo-body', false);
+    buildRepasse();
+    updateResumo();
+  } catch(e) {
+    document.getElementById('var-luana-body').innerHTML = '<tr><td colspan="14" style="color:var(--red);padding:16px">Erro ao carregar. Verifique a conexão.</td></tr>';
+    document.getElementById('var-marcelo-body').innerHTML = '<tr><td colspan="14" style="color:var(--red);padding:16px">Erro ao carregar.</td></tr>';
+  }
+}
+
+function parseVariaveis(data) {
+  varLuana = []; varMarcelo = [];
+  let section = null, header = false;
+  for(let i=0;i<data.length;i++) {
+    const c0 = String(data[i][0]||'').trim().toUpperCase();
+    if(c0.indexOf('PAGAS POR LUANA')>=0) { section='luana'; header=false; continue; }
+    if(c0.indexOf('PAGAS POR MARCELO')>=0||c0.indexOf('PAGAS POR M')>=0) { section='marcelo'; header=false; continue; }
+    if(c0==='FAVORECIDO') { header=true; continue; }
+    if(c0==='TOTAL'||c0==='') continue;
+    if(!section||!header) continue;
+    const nome = String(data[i][0]||'').trim();
+    if(!nome) continue;
+    const vals = Array.from({length:12},(_,j)=>parseFloat(data[i][j+1])||0);
+    if(section==='luana') varLuana.push({nome,vals});
+    else varMarcelo.push({nome,vals});
+  }
+}
+
+function buildTable(arr, tbodyId, withDel) {
+  const el = document.getElementById(tbodyId);
+  el.innerHTML = '';
+  if(!arr.length) {
+    el.innerHTML = `<tr><td colspan="${withDel?15:14}" style="color:var(--text3);text-align:center;padding:16px">Nenhuma despesa registrada</td></tr>`;
+    return;
+  }
+  arr.forEach((r,ri) => {
+    const total = r.vals.reduce((a,b)=>a+b,0);
+    const tr = document.createElement('tr');
+    const cells = r.vals.map(v=>v?`<td class="mono">${Number(v).toFixed(2).replace('.',',')}</td>`:`<td class="zero">—</td>`).join('');
+    tr.innerHTML = `<td>${r.nome}</td>${cells}<td class="mono" style="font-weight:600">${brl(total)}</td>`;
+    el.appendChild(tr);
+  });
+  const sums = colSums(arr);
+  const tr = document.createElement('tr');
+  tr.className = 'total-row';
+  tr.innerHTML = `<td>Total</td>${sums.map(v=>`<td>${brl(v)}</td>`).join('')}<td>${brl(sums.reduce((a,b)=>a+b,0))}</td>`;
+  el.appendChild(tr);
+}
+
+function buildTable_fixas() {
+  buildTable(fixas,'fixas-body',false);
+}
+
+function buildRepasse() {
+  const fS=colSums(fixas), lS=colSums(varLuana), mS=colSums(varMarcelo);
+  const el=document.getElementById('repasse-body');
+  el.innerHTML='';
+  let acum=0;
+  MESES_FULL.forEach((m,i)=>{
+    const total=fS[i]+lS[i]+mS[i], prev=total/2, pago=mS[i], saldo=prev-pago;
+    acum+=saldo;
+    const sc=acum>0.01?'acum-pos':acum<-0.01?'acum-neg':'';
+    const ss=saldo>0.01?'saldo-pos':saldo<-0.01?'saldo-neg':'';
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${m}</td><td class="mono">${brl(total)}</td><td class="mono">${brl(prev)}</td><td class="mono">${pago?brl(pago):'—'}</td><td class="mono ${ss}">${brl(saldo)}</td><td class="mono ${sc}">${brl(Math.abs(acum))} ${acum>0.01?'↑ deve':'✓ ok'}</td>`;
+    el.appendChild(tr);
+  });
+}
+
+function updateResumo() {
+  const mi=parseInt(document.getElementById('month-sel').value);
+  const fS=colSums(fixas), lS=colSums(varLuana), mS=colSums(varMarcelo);
+  const f=fS[mi], v=lS[mi]+mS[mi], ma=mS[mi], total=f+v, repasse=(total/2)-ma;
+  document.getElementById('r-total').textContent=brl(total);
+  document.getElementById('r-fixas').textContent=brl(f);
+  document.getElementById('r-var').textContent=brl(v);
+  document.getElementById('r-repasse').textContent=brl(repasse);
+  document.getElementById('r-mes-nome').textContent=MESES_FULL[mi];
+  document.getElementById('rd-total').textContent=brl(total);
+  document.getElementById('rd-cada').textContent=brl(total/2);
+  document.getElementById('rd-marc').textContent=brl(ma);
+  document.getElementById('rd-repasse').textContent=brl(repasse);
+}
+
+async function lancarDespesa() {
+  if(!perfil) { showToast('Selecione Luana ou Marcelo primeiro!'); return; }
+  const desc=document.getElementById('new-desc').value.trim();
+  const mes=document.getElementById('new-mes').value;
+  const valor=parseFloat(document.getElementById('new-val').value);
+  if(!desc||isNaN(valor)||valor<=0) { showToast('Preencha descrição e valor.'); return; }
+  const btn=document.getElementById('btn-lancar');
+  btn.disabled=true; btn.textContent='Salvando...';
+  try {
+    const url=`${API}?action=addDespesa&quem=${perfil}&desc=${encodeURIComponent(desc)}&mes=${mes}&valor=${valor}`;
+    const res=await fetch(url);
+    const json=await res.json();
+    if(json.status!=='ok') throw new Error(json.msg);
+    document.getElementById('new-desc').value='';
+    document.getElementById('new-val').value='';
+    showToast('✓ Despesa salva na planilha!');
+    await carregarVariaveis();
+  } catch(e) {
+    showToast('Erro ao salvar. Tente novamente.');
+  }
+  btn.disabled=false; btn.textContent='+ Adicionar';
+}
+
+function showTab(id,btn) {
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('sec-'+id).classList.add('active');
+}
+
+buildTable_fixas();
+document.getElementById('month-sel').value=new Date().getMonth();
+carregarVariaveis();
+</script>
+</body>
+</html>
