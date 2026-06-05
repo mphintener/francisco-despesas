@@ -20,21 +20,21 @@ header { background: var(--surface); border-bottom: 1px solid var(--border); pad
 .header-sub { font-size: 13px; color: var(--text2); }
 .avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--teal-bg); color: var(--teal); font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; }
 main { max-width: 900px; margin: 0 auto; padding: 20px 16px 40px; }
- 
+
 .tabs { display: flex; gap: 6px; margin-bottom: 20px; overflow-x: auto; }
 .tab { padding: 8px 16px; border: 1px solid var(--border); border-radius: 99px; background: var(--surface); cursor: pointer; font-size: 13px; font-weight: 500; color: var(--text2); white-space: nowrap; font-family: 'DM Sans', sans-serif; transition: all 0.15s; }
 .tab.active { background: var(--text); color: #fff; border-color: var(--text); }
- 
+
 .section { display: none; }
 .section.active { display: block; }
- 
+
 .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 20px; }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
 .card-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 6px; }
 .card-value { font-size: 20px; font-weight: 600; font-family: 'DM Mono', monospace; }
 .card-value.blue { color: var(--blue); }
 .card-value.teal { color: var(--teal); }
- 
+
 .box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 18px 20px; margin-bottom: 16px; }
 .box-title { font-size: 14px; font-weight: 600; margin-bottom: 14px; color: var(--text2); text-transform: uppercase; letter-spacing: .04em; }
 .repasse-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
@@ -42,9 +42,9 @@ main { max-width: 900px; margin: 0 auto; padding: 20px 16px 40px; }
 .repasse-label { color: var(--text2); }
 .repasse-value { font-weight: 600; font-family: 'DM Mono', monospace; }
 .repasse-value.big { font-size: 20px; color: var(--blue); }
- 
+
 select.month-sel { appearance: none; padding: 9px 36px 9px 14px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b6760' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center; font-size: 14px; font-family: 'DM Sans', sans-serif; font-weight: 500; color: var(--text); cursor: pointer; margin-bottom: 16px; width: 100%; max-width: 240px; }
- 
+
 .table-wrap { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 600px; }
 th { padding: 8px 10px; background: var(--surface2); font-weight: 500; font-size: 11px; color: var(--text2); text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; text-transform: uppercase; letter-spacing: .04em; }
@@ -53,28 +53,28 @@ tr:last-child td { border-bottom: none; }
 .total-row td { font-weight: 600; background: var(--surface2); font-family: 'DM Mono', monospace; }
 .zero { color: var(--text3); }
 .mono { font-family: 'DM Mono', monospace; }
- 
+
 .badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 600; }
 .badge-l { background: var(--teal-bg); color: var(--teal); }
 .badge-m { background: var(--blue-bg); color: var(--blue); }
 .sec-label { font-size: 13px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: .04em; margin: 20px 0 10px; display: flex; align-items: center; gap: 8px; }
- 
+
 .info-note { font-size: 12px; color: var(--text2); padding: 10px 14px; border-left: 3px solid var(--border); background: var(--surface2); margin-top: 12px; }
 .loading { text-align: center; padding: 30px; color: var(--text2); font-size: 14px; }
 .acum-pos { color: var(--red); font-weight: 600; }
 .acum-neg { color: var(--teal); font-weight: 600; }
 .saldo-pos { color: var(--blue); }
 .saldo-neg { color: var(--red); }
- 
+
 .sheets-link { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); font-size: 13px; font-weight: 500; color: var(--text); text-decoration: none; margin-bottom: 20px; }
 .sheets-link:hover { background: var(--surface2); }
- 
+
 .btn-refresh { padding: 8px 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); cursor: pointer; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; color: var(--text2); margin-bottom: 16px; }
 .btn-refresh:hover { background: var(--surface2); }
 </style>
 </head>
 <body>
- 
+
 <header>
   <div class="header-inner">
     <div>
@@ -84,7 +84,7 @@ tr:last-child td { border-bottom: none; }
     <div class="avatar">F</div>
   </div>
 </header>
- 
+
 <main>
   <div class="tabs">
     <button class="tab active" onclick="showTab('resumo',this)">Resumo</button>
@@ -92,7 +92,7 @@ tr:last-child td { border-bottom: none; }
     <button class="tab" onclick="showTab('variaveis',this)">Despesas variáveis</button>
     <button class="tab" onclick="showTab('repasse',this)">Repasse anual</button>
   </div>
- 
+
   <!-- RESUMO -->
   <div id="sec-resumo" class="section active">
     <select class="month-sel" id="month-sel" onchange="updateResumo()">
@@ -118,7 +118,7 @@ tr:last-child td { border-bottom: none; }
     </div>
     <button class="btn-refresh" onclick="carregarVariaveis()">↻ Atualizar dados</button>
   </div>
- 
+
   <!-- FIXAS -->
   <div id="sec-fixas" class="section">
     <div class="box" style="padding:0;overflow:hidden">
@@ -130,7 +130,7 @@ tr:last-child td { border-bottom: none; }
       </div>
     </div>
   </div>
- 
+
   <!-- VARIÁVEIS -->
   <div id="sec-variaveis" class="section">
     <a class="sheets-link" href="https://docs.google.com/spreadsheets/d/19Oevs-muIUDhIk3OHbQdC4VT1RKFtOchNtlQ8pz_nS8/edit" target="_blank">
@@ -145,7 +145,7 @@ tr:last-child td { border-bottom: none; }
         </table>
       </div>
     </div>
- 
+
     <div class="sec-label">Pagas por Marcelo <span class="badge badge-m">Marcelo</span></div>
     <div class="box" style="padding:0;overflow:hidden">
       <div class="table-wrap">
@@ -157,7 +157,7 @@ tr:last-child td { border-bottom: none; }
     </div>
     <div class="info-note">Para lançar despesas, clique no botão acima para abrir a planilha. Após salvar, clique em "Atualizar dados" no Resumo.</div>
   </div>
- 
+
   <!-- REPASSE ANUAL -->
   <div id="sec-repasse" class="section">
     <div class="box" style="padding:0;overflow:hidden">
@@ -171,13 +171,13 @@ tr:last-child td { border-bottom: none; }
     <div class="info-note">Saldo acumulado = total que Marcelo deve repassar para Luana até aquele mês.</div>
   </div>
 </main>
- 
+
 <script>
 const SHEET_ID = '19Oevs-muIUDhIk3OHbQdC4VT1RKFtOchNtlQ8pz_nS8';
 const MESES_FULL = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
- 
+
 let varLuana = [], varMarcelo = [];
- 
+
 const fixas = [
   {nome:'Escola Mais', vals:[1634,1634,1634,1634,1634,1634,1634,1634,1634,1634,1634,1634]},
   {nome:'Material didático', vals:[320,320,320,320,320,320,320,320,320,320,320,0]},
@@ -186,10 +186,10 @@ const fixas = [
   {nome:'Clube', vals:[138.80,138.80,138.80,138.80,200.47,138.80,138.80,138.80,138.80,138.80,138.80,138.80]},
   {nome:'Celular', vals:[50,50,50,50,50,50,50,50,50,50,50,50]},
 ];
- 
+
 function brl(v) { return 'R$ ' + Number(v).toFixed(2).replace('.',','); }
 function colSums(arr) { return Array.from({length:12},(_,i)=>arr.reduce((s,r)=>s+(parseFloat(r.vals[i])||0),0)); }
- 
+
 async function carregarVariaveis() {
   try {
     const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=variavel`;
@@ -207,12 +207,12 @@ async function carregarVariaveis() {
     document.getElementById('var-marcelo-body').innerHTML = '<tr><td colspan="14" style="color:var(--red);padding:16px">Erro ao carregar.</td></tr>';
   }
 }
- 
+
 function getCellValue(cell) {
   if(!cell || cell.v === null || cell.v === undefined) return '';
   return cell.v;
 }
- 
+
 function parseVariaveis(rows) {
   varLuana = []; varMarcelo = [];
   let section = null, headerFound = false;
@@ -231,7 +231,7 @@ function parseVariaveis(rows) {
     else varMarcelo.push({nome,vals});
   }
 }
- 
+
 function buildTable(arr, tbodyId) {
   const el = document.getElementById(tbodyId);
   el.innerHTML = '';
@@ -252,9 +252,9 @@ function buildTable(arr, tbodyId) {
   tr.innerHTML = `<td>Total</td>${sums.map(v=>`<td>${brl(v)}</td>`).join('')}<td>${brl(sums.reduce((a,b)=>a+b,0))}</td>`;
   el.appendChild(tr);
 }
- 
+
 function buildTable_fixas() { buildTable(fixas,'fixas-body'); }
- 
+
 function buildRepasse() {
   const fS=colSums(fixas), lS=colSums(varLuana), mS=colSums(varMarcelo);
   const el=document.getElementById('repasse-body');
@@ -270,7 +270,7 @@ function buildRepasse() {
     el.appendChild(tr);
   });
 }
- 
+
 function updateResumo() {
   const mi=parseInt(document.getElementById('month-sel').value);
   const fS=colSums(fixas), lS=colSums(varLuana), mS=colSums(varMarcelo);
@@ -285,17 +285,19 @@ function updateResumo() {
   document.getElementById('rd-marc').textContent=brl(ma);
   document.getElementById('rd-repasse').textContent=brl(repasse);
 }
- 
+
 function showTab(id,btn) {
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('sec-'+id).classList.add('active');
 }
- 
+
 buildTable_fixas();
 document.getElementById('month-sel').value = new Date().getMonth();
 carregarVariaveis();
 </script>
 </body>
 </html>
+
+
