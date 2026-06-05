@@ -213,6 +213,13 @@ function getCellValue(cell) {
   return cell.v;
 }
 
+function parseNum(cell) {
+  if(!cell || cell.v === null || cell.v === undefined) return 0;
+  if(typeof cell.v === 'number') return cell.v;
+  const s = String(cell.f || cell.v).replace(/R\$\s*/g,'').replace(/\./g,'').replace(',','.').trim();
+  return parseFloat(s) || 0;
+}
+
 function parseVariaveis(rows) {
   varLuana = []; varMarcelo = [];
   let section = null, headerFound = false;
@@ -226,7 +233,7 @@ function parseVariaveis(rows) {
     if(!section || !headerFound) continue;
     const nome = String(getCellValue(cells[0])||'').trim();
     if(!nome) continue;
-    const vals = Array.from({length:12}, (_,j) => parseFloat(getCellValue(cells[j+1]))||0);
+    const vals = Array.from({length:12}, (_,j) => parseNum(cells[j+1]));
     if(section==='luana') varLuana.push({nome,vals});
     else varMarcelo.push({nome,vals});
   }
@@ -299,6 +306,3 @@ carregarVariaveis();
 </script>
 </body>
 </html>
-
-
-
